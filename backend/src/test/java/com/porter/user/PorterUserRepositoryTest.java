@@ -23,11 +23,11 @@ class PorterUserRepositoryTest {
 
     @Test
     void createsAndFindsUser() {
-        PorterUser created = repository.create("Dominic", "Chen");
+        PorterUser created = repository.create("Test", "User");
 
         assertThat(created.id()).isNotNull();
-        assertThat(created.firstName()).isEqualTo("Dominic");
-        assertThat(created.lastName()).isEqualTo("Chen");
+        assertThat(created.firstName()).isEqualTo("Test");
+        assertThat(created.lastName()).isEqualTo("User");
         assertThat(created.createdAt()).isNotNull();
         assertThat(created.updatedAt()).isNotNull();
 
