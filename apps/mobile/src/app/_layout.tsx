@@ -1,4 +1,4 @@
-import { ClerkProvider, useAuth } from '@clerk/expo';
+import { ClerkProvider, useSession } from '@clerk/expo';
 import { tokenCache } from '@clerk/expo/token-cache';
 import { Stack } from 'expo-router';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
@@ -22,7 +22,8 @@ export default function RootLayout() {
 }
 
 function RootNavigator() {
-  const { isLoaded, isSignedIn } = useAuth({ treatPendingAsSignedOut: false });
+  const { isLoaded, session } = useSession();
+  const isSessionActive = session?.status === 'active';
 
   if (!isLoaded) {
     return (
@@ -34,11 +35,11 @@ function RootNavigator() {
 
   return (
     <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Protected guard={isSignedIn === true}>
+      <Stack.Protected guard={isSessionActive}>
         <Stack.Screen name="(tabs)" />
       </Stack.Protected>
 
-      <Stack.Protected guard={isSignedIn === false}>
+      <Stack.Protected guard={!isSessionActive}>
         <Stack.Screen name="sign-in" />
       </Stack.Protected>
     </Stack>
